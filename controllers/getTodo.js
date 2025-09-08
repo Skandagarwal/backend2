@@ -29,10 +29,19 @@ exports.getTodo = async(req,res)=>{
     }
 }
 
-exports.getsTodo = async(req,res)=>{
+exports.getTodoById = async(req,res)=>{
     try{
-        const todo = await Todo.find({});
-
+        //ectract todo items basis on id
+        const id = req.params.id;
+        const todo = await Todo.findById({_id: id});
+        
+        //data forgive id not found
+        if(!todo){
+            return res.status(404).json({
+                success:false,
+                message:"No Data Found woth given ID",
+            })
+        }
         res.status(200)
         .json({
             success:true,
